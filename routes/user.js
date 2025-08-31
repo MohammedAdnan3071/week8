@@ -1,7 +1,7 @@
 const express = require('express');
 const Router = express.Router();
 
-const userRouter = Router();
+const userRouter  = express.Router();   
 
 
 userRouter.post("/signUp",(req,res)=>{
@@ -27,6 +27,6 @@ userRouter.get("/purchases",(req,res)=>{
 });
 
 
-module.exports = {
-    userRouter:userRouter
+module.exports =  {
+    userRouter :userRouter
 }
