@@ -2,36 +2,18 @@
 
 
 const express = require("express");
+const userRouter = require("./routes/user");
+const courseRouter = require("./routes/course")
 const app = express();
+
 app.use(express.json());
+
 const PORT = 3000;
 
 
-const MainRouter = require('express').Router();
 
-MainRouter.use("./routes/signin.js")
-
-app.post("/userLogin", (req,res)=>{
-
-});
-
-app.post("/signup",(req,res)=>{
-
-});
-
-app.post("/purchaseCourse",(req,res)=>{
-
-});
-
-app.get("/getAllCourses",(req,res)=>{
-
-});
-
-app.get("/UserPurchasedCourses",(req,res)=>{
-
-});
-
-
+app.use("/user",userRouter);
+app.use("/course",courseRouter);
 
 
 
