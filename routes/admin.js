@@ -61,6 +61,7 @@ adminRouter.post("/course", adminMiddleware,async(req,res)=>{
         title:title,
         description:description,
         imageUrl :imageUrl,
+        price:price,
         creatorId : adminId
      })
     res.json({
@@ -72,17 +73,41 @@ adminRouter.post("/course", adminMiddleware,async(req,res)=>{
 
 
 
-adminRouter.put("/",(req,res)=>{
+adminRouter.put("/course",adminMiddleware,async(req,res)=>{
+        const adminId = req.userId;
+
+    const {title, description, imageUrl, price} = req.body;
+
+    const newCourse =  await courseModel.updateOne({
+        _id : courseId,
+        creatorId:adminId
+    },{
+        title:title,
+        description:description,
+        imageUrl :imageUrl,
+        price:price
+     })
     res.json({
-        message:"Admin changed course"
+        message:"Admin updated the course",
+        courseId : newCourse._id
     })
+    
 });
 
 
-adminRouter.get("/bulk",(req,res)=>{
+adminRouter.get("/bulk",adminMiddleware,async(req,res)=>{
+    const adminId = req.userId;
+
+    const {title, description, imageUrl, price} = req.body;
+
+    const courses =  await courseModel.find({
+        creatorId:adminId
+     })
     res.json({
-        message:"all courses for the admin"
+        message:"Admin previewed all courses",
+        courses
     })
+    
 });
 
 
