@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const Router = express.Router();
 const {userModel} = require("../db");
 const userRouter  = express.Router();   
+require('dotenv').config();
 const jwt_user = process.env.JWT_USER_PASSWORD;
 
 userRouter.post("/signUp",(req,res)=>{

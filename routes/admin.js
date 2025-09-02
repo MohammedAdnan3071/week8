@@ -1,11 +1,14 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
 const Router = express.Router();
-const { adminModel } =require("../db");
+
+
+const { adminModel, courseModel } =require("../db");
+const adminMiddleware = require("../middlewares/admin.middleware");
 const adminRouter = express.Router();
 const jwt_admin = process.env.JWT_ADMIN_PASSWORD
 
-// Add routes for admin login, admin signup, create a course, delete a course, add course content.
+
 
 
 adminRouter.post("/signUp", async(req,res)=>{
@@ -23,11 +26,7 @@ adminRouter.post("/signUp", async(req,res)=>{
         message:"Admin Signned UP"
     })
 });
-adminRouter.post("/",(req,res)=>{
-    res.json({
-        message:"Admin created a course"
-    })
-});
+
 
 
 adminRouter.post("/signIn",async(req,res)=>{
@@ -50,6 +49,27 @@ const {email, password} =req.body;
     }
     
 });
+
+
+
+adminRouter.post("/course", adminMiddleware,async(req,res)=>{
+    const adminId = req.userId;
+
+    const {title, description, imageUrl, price} = req.body;
+
+    const newCourse =  await courseModel.create({
+        title:title,
+        description:description,
+        imageUrl :imageUrl,
+        creatorId : adminId
+     })
+    res.json({
+        message:"Admin created a course",
+        courseId : newCourse._id
+    })
+});
+
+
 
 
 adminRouter.put("/",(req,res)=>{
