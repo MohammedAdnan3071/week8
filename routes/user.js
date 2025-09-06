@@ -1,7 +1,8 @@
 const express = require('express');
 const jwt = require("jsonwebtoken");
 const Router = express.Router();
-const {userModel} = require("../db");
+const {userModel, purchaseModel} = require("../db");
+const userMiddleware = require('../middlewares/user.middleware');
 const userRouter  = express.Router();   
 require('dotenv').config();
 const jwt_user = process.env.JWT_USER_PASSWORD;
@@ -45,9 +46,14 @@ userRouter.post("/signIn",async(req,res)=>{
 
 
 
-userRouter.get("/purchases",(req,res)=>{
+userRouter.get("/purchases",userMiddleware,async(req,res)=>{
+    const userId = req.userId;
+
+    const purchases = await purchaseModel.find({
+        userId
+    })
     res.json({
-        message:"You are signed Up!"
+         purchases
     })
 });
 
