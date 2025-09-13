@@ -15,7 +15,7 @@ courseRouter.post("/purchase",async(req,res)=>{
         courseId
     })
     res.json({
-        message:"You purchasesd this course"
+        message:" purchasesd this course"
     })
 });
 
